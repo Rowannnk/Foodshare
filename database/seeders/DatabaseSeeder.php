@@ -10,6 +10,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use App\Models\Organization;
 use App\Models\Reservation;
+use App\Models\Pickup;
 
 
 class DatabaseSeeder extends Seeder
@@ -68,8 +69,20 @@ class DatabaseSeeder extends Seeder
                     ->create([
                         'quantity' => fake()->numberBetween(1, min(5, $listing->quantity)),
                     ]);
+                }
+            }
+        $reservations = Reservation::with('foodListing.organization')->get();
+
+        foreach ($reservations as $index => $reservation) {
+            $pickup = Pickup::factory()->for($reservation);
+                if ($index < 5) {
+                    $pickup = $pickup->collected()->state([
+                    'confirmed_by' => $reservation->foodListing->organization->user_id,
+                    ]);
+                }
+                $pickup->create();
             }
         }
-    }
+        
     
 }
