@@ -1,88 +1,126 @@
-<h1 align="center">Educational Starter Pack<br><sub>for</sub></h1>
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# FoodLoop
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Surplus food donation and reservation platform**
 
+FoodLoop is a web application that helps reduce food waste by connecting food businesses with charities and other organizations that can use surplus food. Restaurants, cafes, bakeries and supermarkets publish food that is still safe to use but would otherwise be wasted. Charities browse the available listings and reserve the quantity they need. The platform helps both sides manage listings and reservations, and records when food has been collected.
 
----
+Built by **Min Khant Kyaw** as the project for the course _From idea to MVP_ (MWA1, 2026).
 
-## About this Starter Pack
+## Who uses it
 
-This is a starter pack for **Laravel tailored for educational purposes**.
+| Role                      | What they do                                                                         |
+| ------------------------- | ------------------------------------------------------------------------------------ |
+| **Donor** (food business) | Creates organizations, publishes and manages surplus food listings, confirms pickups |
+| **Recipient** (charity)   | Browses listings, reserves a quantity, follows and cancels reservations              |
+| **Admin**                 | Manages users, organizations, food categories and listings                           |
+| **Visitor**               | Browses the public pages without an account                                          |
 
-It is aimed at helping students and beginners to quickly set up a Laravel development environment that allows for 
-learning the basics without the need to configure everything from scratch.
+## Features
 
-### Changes from the original Laravel repository
-It provides a pre-configured environment with some opinionated settings and packages for the educational context. 
-Initial customisation was done based on Laravel version 12.x. (12.37.0 on November 9th, 2025).
-Updated to Laravel 13.x (13.42 on November 11th, 2026), running on PHP 8.5, including now also Laravel Boost.
+- Public welcome page and browsable food listings with search and filters
+- Registration, login and profile management
+- Organization management (create, edit, deactivate)
+- Food listings with categories, quantity, dates and status
+- Reservations with quantity validation
+- Pickup records with a pickup code and collection confirmation
+- Admin area for users, organizations, categories and listings
+- Role-based access (authorization in controllers, user info shown in views)
+- Server-side validation on every form, with error feedback
 
-- Added **barryvdh/laravel-debugbar** for debug info in the browser
-- Altered **.env.example** for local development (SQLite database, debug mode on, cache and session set to file)
-- Added **roave/security-advisories** to prevent installation of packages with known security issues
-- Added **laravel/boost** for AI assisted code generation, including skills for Claude Code and Codex
-- Used **laravel/breeze** for authentication scaffolding with Blade templates (but moved all of the component views to a `components.breeze` subfolder for better organization; the Breeze package itself is no longer required)
-- Front-end assets are built with **Vite 8** and **Tailwind CSS 4**, with a fallback to **CDN includes of Tailwind CSS and Alpine JS** when no build is present
-- Replaced PHPUnit by **Pest PHP** for testing, kept basic example tests
-- Some other small tweaks in configuration files, routes, controller, and view organisation to better reflect the educational purpose (rigid structure)
+## Data model
 
-No front-end build is needed to get started. When there is no Vite build in `public/build`, the application falls back to CDN-hosted Tailwind CSS and Alpine JS. Running `npm run build` (or `npm run dev`) switches it to the compiled assets.
+Six main models:
 
-Everything that follows below (and the shields in the header) are part of the original Laravel README.md file.
+| Model          | Key fields                                                        |
+| -------------- | ----------------------------------------------------------------- |
+| `User`         | name, email, password, role, email_verified_at                    |
+| `Organization` | user_id, name, slug, type, contact details, is_active             |
+| `FoodCategory` | name, slug, description, is_active                                |
+| `FoodListing`  | organization_id, food_category_id, title, quantity, dates, status |
+| `Reservation`  | food_listing_id, user_id, quantity, status, reserved_at           |
+| `Pickup`       | reservation_id, confirmed_by, pickup_code, status, collected_at   |
 
----
-## About Laravel
+Relationships:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- User 1–N Organization
+- Organization 1–N FoodListing
+- FoodCategory 1–N FoodListing
+- FoodListing 1–N Reservation
+- User 1–N Reservation
+- Reservation 1–1 Pickup
+- A User can confirm many Pickups (`confirmed_by`)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Every model has a migration and a factory, and all factories are used in `DatabaseSeeder`.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Pages and routes
 
-## Learning Laravel
+| Page                 | URL                   | Access                                           |
+| -------------------- | --------------------- | ------------------------------------------------ |
+| Home                 | `/`                   | Public                                           |
+| Food listings        | `/food-listings`      | Public                                           |
+| Food listing details | `/food-listings/{id}` | Public view, actions need a signed-in role       |
+| My organizations     | `/organizations`      | Signed-in donor / recipient, admin manages all   |
+| Organization details | `/organizations/{id}` | Signed-in users, edits limited to owner or admin |
+| My reservations      | `/reservations`       | Signed-in recipient                              |
+| Pickup confirmation  | `/pickups`            | Relevant donor / recipient and admin             |
+| Admin management     | `/admin`              | Admin only                                       |
+| Login / register     | `/login`, `/register` | Public                                           |
+| Profile settings     | `/profile`            | Signed-in user                                   |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Tech stack
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.5
+- Laravel 13
+- Blade templates (no front-end framework)
+- Tailwind CSS 4 and Alpine.js (CDN fallback, so no build is required)
+- SQLite
+- Pest for tests
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+The project is built on an educational Laravel starter pack (Breeze-style Blade authentication).
 
-## Agentic Development
+## Installation
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Requirements: PHP 8.5, Composer.
 
 ```bash
-composer require laravel/boost --dev
+git clone <repository-url> foodloop
+cd foodloop
 
-php artisan boost:install
+composer install
+cp .env.example .env
+php artisan key:generate
+
+touch database/database.sqlite
+
+php artisan migrate:fresh --seed
+
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Then open <http://127.0.0.1:8000>.
 
-## Contributing
+No front-end build is needed. If you want the compiled assets, run `npm install && npm run build`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Demo accounts
 
-## Code of Conduct
+The seeder creates these users (all with the password `password`):
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Role  | Email             | Password   |
+| ----- | ----------------- | ---------- |
+| Admin | `admin@admin.com` | `password` |
 
-## Security Vulnerabilities
+Other seeded donors and recipients use random emails generated by the factory.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Running the tests
+
+```bash
+php artisan test
+```
+
+## Git workflow
+
+The project is developed in small, atomic commits, each adding one functional increment (for example: one model with its migration and factory, one controller method, one view).
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project was created for educational purposes.
