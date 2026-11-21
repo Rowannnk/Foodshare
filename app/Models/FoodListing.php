@@ -6,6 +6,7 @@ use App\Enums\ListingStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FoodListing extends Model
 {
@@ -41,5 +42,9 @@ class FoodListing extends Model
     public function foodCategory(): BelongsTo
     {
         return $this->belongsTo(FoodCategory::class);
+    }
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
     }
 }
