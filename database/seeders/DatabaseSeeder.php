@@ -9,6 +9,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use App\Models\Organization;
+use App\Models\Reservation;
 
 
 class DatabaseSeeder extends Seeder
@@ -57,5 +58,18 @@ class DatabaseSeeder extends Seeder
                     ->create();
             }
         }
+        $listings = FoodListing::all();
+
+        foreach ($recipients as $recipient) {
+            foreach ($listings->random(3) as $listing) {
+                Reservation::factory()
+                    ->for($listing)
+                    ->for($recipient)
+                    ->create([
+                        'quantity' => fake()->numberBetween(1, min(5, $listing->quantity)),
+                    ]);
+            }
+        }
     }
+    
 }
