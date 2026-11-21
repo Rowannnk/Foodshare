@@ -62,4 +62,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reservation::class);
     }
+    public function confirmedPickups(): HasMany
+    {
+        return $this->hasMany(Pickup::class, 'confirmed_by');
+    }
 }
