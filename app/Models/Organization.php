@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Enums\Enums\OrganizationType;
+use App\Enums\OrganizationType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Override;
 
 class Organization extends Model
 {
@@ -21,7 +20,7 @@ class Organization extends Model
             'is_active' => 'boolean',
         ];
     }
-    protected function user(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
