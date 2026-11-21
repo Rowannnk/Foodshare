@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use App\Models\Organization;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,8 +25,16 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
         ]);
 
-        User::factory(5)->donor()->create();
-        User::factory(5)->create();
+        $donors = User::factory(5)->donor()->create();
+        $recipients = User::factory(5)->create();
+
+        foreach ($donors as $donor) {
+            Organization::factory(2)->for($donor)->create();
+        }
+
+        foreach ($recipients as $recipient) {
+            Organization::factory()->charity()->for($recipient)->create();
+        }
 
         $categories = [
             'Bakery',
