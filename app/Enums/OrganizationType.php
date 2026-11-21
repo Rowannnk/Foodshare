@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums\Enums;
+namespace App\Enums;
 
-enum OrganizationType : string
+enum OrganizationType: string
 {
     case RESTAURANT = 'restaurant';
     case CAFE = 'cafe';
