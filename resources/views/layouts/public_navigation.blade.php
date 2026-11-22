@@ -24,8 +24,7 @@
                 How it works
             </a>
 
-            <a href="{{ route('welcome') }}#food-listings"
-               class="transition hover:text-[#B96F4D]">
+            <a href="{{ route('food-listings.index') }}" ...>
                 Available food
             </a>
 
@@ -79,8 +78,7 @@
                     How it works
                 </a>
 
-                <a href="{{ route('welcome') }}#food-listings"
-                   class="block rounded-xl px-4 py-3 text-sm font-semibold transition hover:bg-[#FFF3EB]">
+                <a href="{{ route('food-listings.index') }}" ...>
                     Available food
                 </a>
 
