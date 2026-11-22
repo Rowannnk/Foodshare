@@ -27,6 +27,10 @@
             <a href="{{ route('food-listings.index') }}" ...>
                 Available food
             </a>
+            <a href="{{ route('categories.index') }}"
+            class="transition hover:text-[#B96F4D]">
+                Categories
+            </a>
 
             @auth
 
@@ -80,6 +84,10 @@
 
                 <a href="{{ route('food-listings.index') }}" ...>
                     Available food
+                </a>
+                <a href="{{ route('categories.index') }}"
+                class="transition hover:text-[#B96F4D]">
+                    Categories
                 </a>
 
                 @auth
