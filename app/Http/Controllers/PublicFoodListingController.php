@@ -7,15 +7,24 @@ use App\Models\FoodCategory;
 use App\Models\FoodListing;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
 
 class PublicFoodListingController extends Controller
 {
-    public function index(Request $request): View
-    {
-        $validated = $request->validate([
-            'q' => ['nullable', 'string', 'max:100'],
-            'category' => ['nullable', 'integer', 'exists:food_categories,id'],
-        ]);
+  
+    public function index(Request $request): View|RedirectResponse
+        {
+            $validator = Validator::make($request->all(), [
+                'q' => ['nullable', 'string', 'max:100'],
+                'category' => ['nullable', 'integer', 'exists:food_categories,id'],
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->route('food-listings.index')->withErrors($validator);
+            }
+
+            $validated = $validator->validated();
 
         $listings = FoodListing::with(['organization', 'foodCategory'])
             ->where('status', ListingStatus::AVAILABLE)
