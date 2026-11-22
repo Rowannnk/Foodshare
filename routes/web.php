@@ -5,6 +5,7 @@ use App\Http\Controllers\Userzone\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicFoodListingController;
+use App\Http\Controllers\PublicCategoryController;
 
 /*
  * Public Website routes
@@ -14,6 +15,8 @@ Route::get('/', WelcomeController::class)->name('welcome');
 // Todo: add your public routes here
 Route::get('/food-listings', [PublicFoodListingController::class, 'index'])->name('food-listings.index');
 Route::get('/food-listings/{foodListing}', [PublicFoodListingController::class, 'show'])->name('food-listings.show');
+Route::get('/categories', [PublicCategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{category:slug}', [PublicCategoryController::class, 'show'])->name('categories.show');
 
 /*
  * Authentication routes
