@@ -8,6 +8,7 @@ use App\Http\Controllers\Userzone\ProfileController;
 use App\Http\Controllers\Userzone\ReservationController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Userzone\OrganizationController;
 
 /*
  * Public Website routes
@@ -38,6 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
     Route::resource('my-listings', FoodListingController::class)
         ->parameters(['my-listings' => 'foodListing']);
+
+
+    Route::resource('organizations', OrganizationController::class);
 
     // For the user's profile management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
