@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
-enum UserRole : string
+enum UserRole: string
 {
     case ADMIN = 'admin';
     case DONOR = 'donor';
-    case RECIPENT = 'recipent';
+    case RECIPIENT = 'recipient';
 }
