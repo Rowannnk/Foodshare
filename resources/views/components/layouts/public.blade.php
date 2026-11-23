@@ -56,6 +56,13 @@
 <body class="bg-[#FFF8F2] text-[#4A342B] antialiased">
 
     @include('layouts.public_navigation')
+    @if (session('success'))
+        <div class="mx-auto mt-6 max-w-7xl px-6 lg:px-8">
+            <div class="rounded-2xl border border-green-200 bg-green-50 px-5 py-4 text-sm font-semibold text-green-800">
+                {{ session('success') }}
+            </div>
+        </div>
+    @endif
 
     <main>
         {{ $slot }}
