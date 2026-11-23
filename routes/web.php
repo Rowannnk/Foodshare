@@ -6,6 +6,7 @@ use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicFoodListingController;
 use App\Http\Controllers\PublicCategoryController;
+use App\Http\Controllers\Userzone\ReservationController;
 
 /*
  * Public Website routes
@@ -32,6 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     // Todo: add your Userzone routes here
+    Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+    Route::post('/food-listings/{foodListing}/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 
     // For the user's profile management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
