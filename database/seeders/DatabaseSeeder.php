@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\Organization;
 use App\Models\Reservation;
 use App\Models\Pickup;
+use App\Enums\ReservationStatus;
 
 
 class DatabaseSeeder extends Seeder
@@ -86,8 +87,10 @@ class DatabaseSeeder extends Seeder
             $pickup = Pickup::factory()->for($reservation);
                 if ($index < 5) {
                     $pickup = $pickup->collected()->state([
-                    'confirmed_by' => $reservation->foodListing->organization->user_id,
+                        'confirmed_by' => $reservation->foodListing->organization->user_id,
                     ]);
+
+                    $reservation->update(['status' => ReservationStatus::COLLECTED]);
                 }
                 $pickup->create();
             }
