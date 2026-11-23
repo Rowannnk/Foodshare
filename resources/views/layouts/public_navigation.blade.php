@@ -33,7 +33,12 @@
             </a>
 
             @auth
-
+            @if (auth()->user()->isRecipient())
+                <a href="{{ route('reservations.index') }}"
+                class="transition hover:text-[#B96F4D]">
+                    My reservations
+                </a>
+            @endif
                 <a href="{{ route('dashboard') }}"
                    class="transition hover:text-[#B96F4D]">
                     Dashboard
@@ -91,7 +96,12 @@
                 </a>
 
                 @auth
-
+                @if (auth()->user()->isRecipient())
+                    <a href="{{ route('reservations.index') }}"
+                    class="transition hover:text-[#B96F4D]">
+                        My reservations
+                    </a>
+                @endif
                     <a href="{{ route('dashboard') }}"
                        class="block rounded-xl px-4 py-3 text-sm font-semibold transition hover:bg-[#FFF3EB]">
                         Dashboard
