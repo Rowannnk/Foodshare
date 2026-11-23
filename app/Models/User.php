@@ -6,9 +6,9 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -23,7 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
     ];
 
     /**
@@ -50,9 +50,11 @@ class User extends Authenticatable
         ];
     }
 
-    public function isAdmin(): bool{
+    public function isAdmin(): bool
+    {
         return $this->role === UserRole::ADMIN;
     }
+
     public function isDonor(): bool
     {
         return $this->role === UserRole::DONOR;
@@ -67,10 +69,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Organization::class);
     }
+
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
     }
+
     public function confirmedPickups(): HasMany
     {
         return $this->hasMany(Pickup::class, 'confirmed_by');

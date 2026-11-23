@@ -6,7 +6,6 @@ use App\Enums\PickupStatus;
 use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-
 class PickupFactory extends Factory
 {
     public function definition(): array

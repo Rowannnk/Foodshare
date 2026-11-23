@@ -10,14 +10,15 @@ class FoodCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','slug','description','is_active'];
+    protected $fillable = ['name', 'slug', 'description', 'is_active'];
 
-    protected function casts():array
+    protected function casts(): array
     {
         return [
             'is_active' => 'boolean',
         ];
     }
+
     public function foodListings(): HasMany
     {
         return $this->hasMany(FoodListing::class);

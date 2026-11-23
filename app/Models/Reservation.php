@@ -37,6 +37,7 @@ class Reservation extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function pickup(): HasOne
     {
         return $this->hasOne(Pickup::class);

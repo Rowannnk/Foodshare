@@ -1,13 +1,13 @@
 <?php
 
+use App\Http\Controllers\PublicCategoryController;
+use App\Http\Controllers\PublicFoodListingController;
 use App\Http\Controllers\Userzone\DashboardController;
+use App\Http\Controllers\Userzone\FoodListingController;
 use App\Http\Controllers\Userzone\ProfileController;
+use App\Http\Controllers\Userzone\ReservationController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PublicFoodListingController;
-use App\Http\Controllers\PublicCategoryController;
-use App\Http\Controllers\Userzone\ReservationController;
-use App\Http\Controllers\Userzone\FoodListingController;
 
 /*
  * Public Website routes
@@ -24,7 +24,6 @@ Route::get('/categories/{category:slug}', [PublicCategoryController::class, 'sho
  * Authentication routes
  */
 require __DIR__.'/auth.php';
-
 
 /*
  * Userzone routes

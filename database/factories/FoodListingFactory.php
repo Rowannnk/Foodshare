@@ -8,7 +8,6 @@ use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-
 class FoodListingFactory extends Factory
 {
     public function definition(): array

@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Enums\ListingStatus;
+use App\Enums\ReservationStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Enums\ReservationStatus;
 
 class FoodListing extends Model
 {
@@ -44,6 +44,7 @@ class FoodListing extends Model
     {
         return $this->belongsTo(FoodCategory::class);
     }
+
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);

@@ -2,25 +2,22 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ReservationStatus;
 use App\Models\FoodCategory;
 use App\Models\FoodListing;
+use App\Models\Organization;
+use App\Models\Pickup;
+use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use App\Models\Organization;
-use App\Models\Reservation;
-use App\Models\Pickup;
-use App\Enums\ReservationStatus;
-
 
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-
     public function run(): void
-
     {
 
         User::factory()->admin()->create([
@@ -60,7 +57,7 @@ class DatabaseSeeder extends Seeder
         foreach ($donors as $donor) {
             $organizations = Organization::factory(2)->for($donor)->create();
 
-        foreach ($organizations as $organization) {
+            foreach ($organizations as $organization) {
                 FoodListing::factory(3)
                     ->for($organization)
                     ->state(fn () => [
@@ -79,22 +76,20 @@ class DatabaseSeeder extends Seeder
                     ->create([
                         'quantity' => fake()->numberBetween(1, min(5, $listing->quantity)),
                     ]);
-                }
             }
+        }
         $reservations = Reservation::with('foodListing.organization')->get();
 
         foreach ($reservations as $index => $reservation) {
             $pickup = Pickup::factory()->for($reservation);
-                if ($index < 5) {
-                    $pickup = $pickup->collected()->state([
-                        'confirmed_by' => $reservation->foodListing->organization->user_id,
-                    ]);
+            if ($index < 5) {
+                $pickup = $pickup->collected()->state([
+                    'confirmed_by' => $reservation->foodListing->organization->user_id,
+                ]);
 
-                    $reservation->update(['status' => ReservationStatus::COLLECTED]);
-                }
-                $pickup->create();
+                $reservation->update(['status' => ReservationStatus::COLLECTED]);
             }
+            $pickup->create();
         }
-        
-    
+    }
 }

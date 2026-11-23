@@ -13,34 +13,36 @@ class Organization extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','name','slug','type','contact_email','contact_phone','address','city','is_active'];
+    protected $fillable = ['user_id', 'name', 'slug', 'type', 'contact_email', 'contact_phone', 'address', 'city', 'is_active'];
 
-    protected function casts():array
+    protected function casts(): array
     {
         return [
             'type' => OrganizationType::class,
             'is_active' => 'boolean',
         ];
     }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
     public function foodListings(): HasMany
     {
         return $this->hasMany(FoodListing::class);
     }
 
     public static function generateSlug(string $name): string
-        {
-            $base = Str::slug($name) ?: 'organization';
-            $slug = $base;
-            $counter = 2;
+    {
+        $base = Str::slug($name) ?: 'organization';
+        $slug = $base;
+        $counter = 2;
 
-            while (static::where('slug', $slug)->exists()) {
-                $slug = $base.'-'.$counter++;
-            }
-
-            return $slug;
+        while (static::where('slug', $slug)->exists()) {
+            $slug = $base.'-'.$counter++;
         }
+
+        return $slug;
+    }
 }
