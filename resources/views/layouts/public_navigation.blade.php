@@ -55,6 +55,11 @@
                         Admin
                     </a>
                 @endif
+
+                <a href="{{ route('pickups.index') }}"
+                class="transition hover:text-[#B96F4D]">
+                    Pickups
+                </a>
                 <a href="{{ route('dashboard') }}"
                    class="transition hover:text-[#B96F4D]">
                     Dashboard
@@ -134,6 +139,10 @@
                             Admin
                         </a>
                     @endif
+                    <a href="{{ route('pickups.index') }}"
+                    class="transition hover:text-[#B96F4D]">
+                        Pickups
+                    </a>
                     <a href="{{ route('dashboard') }}"
                        class="block rounded-xl px-4 py-3 text-sm font-semibold transition hover:bg-[#FFF3EB]">
                         Dashboard

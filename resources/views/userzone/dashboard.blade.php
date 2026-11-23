@@ -56,6 +56,12 @@
                 </a>
             @endif
 
+            <a href="{{ route('pickups.index') }}"
+            class="rounded-[1.75rem] border border-[#EAD8CD] bg-white p-8 transition hover:-translate-y-1 hover:shadow-xl">
+                <h2 class="brand-font text-xl font-extrabold text-[#4A342B]">Pickups</h2>
+                <p class="mt-2 text-sm text-[#88766D]">Check pickup codes and confirm collected food.</p>
+            </a>
+
             <a href="{{ route('profile.edit') }}"
                 class="rounded-[1.75rem] border border-[#EAD8CD] bg-white p-8 transition hover:-translate-y-1 hover:shadow-xl">
                 <h2 class="brand-font text-xl font-extrabold text-[#4A342B]">My profile</h2>
