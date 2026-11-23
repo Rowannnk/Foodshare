@@ -27,8 +27,17 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
         ]);
 
-        $donors = User::factory(5)->donor()->create();
-        $recipients = User::factory(5)->create();
+        $donors = User::factory(4)->donor()->create();
+        $donors->push(User::factory()->donor()->create([
+            'name' => 'Demo Donor',
+            'email' => 'donor@donor.com',
+        ]));
+
+        $recipients = User::factory(4)->create();
+        $recipients->push(User::factory()->create([
+            'name' => 'Demo Recipient',
+            'email' => 'recipient@recipient.com',
+        ]));
 
         $names = [
             'Bakery',
