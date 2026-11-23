@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicFoodListingController;
 use App\Http\Controllers\PublicCategoryController;
 use App\Http\Controllers\Userzone\ReservationController;
+use App\Http\Controllers\Userzone\FoodListingController;
 
 /*
  * Public Website routes
@@ -36,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
     Route::post('/food-listings/{foodListing}/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    Route::resource('my-listings', FoodListingController::class)
+        ->parameters(['my-listings' => 'foodListing']);
 
     // For the user's profile management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
