@@ -39,6 +39,12 @@
                     My reservations
                 </a>
             @endif
+            @if (auth()->user()->isDonor() || auth()->user()->isAdmin())
+                <a href="{{ route('my-listings.index') }}"
+                class="transition hover:text-[#B96F4D]">
+                    My listings
+                </a>
+            @endif
                 <a href="{{ route('dashboard') }}"
                    class="transition hover:text-[#B96F4D]">
                     Dashboard
@@ -100,6 +106,12 @@
                     <a href="{{ route('reservations.index') }}"
                     class="transition hover:text-[#B96F4D]">
                         My reservations
+                    </a>
+                @endif
+                @if (auth()->user()->isDonor() || auth()->user()->isAdmin())
+                    <a href="{{ route('my-listings.index') }}"
+                    class="transition hover:text-[#B96F4D]">
+                        My listings
                     </a>
                 @endif
                     <a href="{{ route('dashboard') }}"
