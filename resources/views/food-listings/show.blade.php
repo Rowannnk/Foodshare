@@ -54,9 +54,48 @@
                 <div class="mt-8">
                     @guest
                         <a href="{{ route('login') }}"
-                           class="inline-flex rounded-full bg-[#E9A17D] px-8 py-4 text-sm font-bold text-[#4A342B] transition hover:-translate-y-1 hover:bg-[#D98E69]">
+                        class="inline-flex rounded-full bg-[#E9A17D] px-8 py-4 text-sm font-bold text-[#4A342B] transition hover:-translate-y-1 hover:bg-[#D98E69]">
                             Log in to reserve this food
                         </a>
+                    @else
+                        @if (! auth()->user()->isRecipient())
+                            <p class="rounded-2xl bg-[#F7E8DE] px-5 py-4 text-sm text-[#8E583D]">
+                                Only recipient accounts (charities) can reserve food.
+                            </p>
+                        @elseif (! $listing->isReservable())
+                            <p class="rounded-2xl bg-[#F7E8DE] px-5 py-4 text-sm text-[#8E583D]">
+                                This food cannot be reserved right now.
+                            </p>
+                        @else
+                            <form method="POST" action="{{ route('reservations.store', $listing) }}"
+                                class="rounded-2xl border border-[#EAD8CD] bg-white p-6">
+                                @csrf
+
+                                <label for="quantity" class="text-sm font-bold text-[#4A342B]">
+                                    How many do you need?
+                                </label>
+                                <p class="text-xs text-[#A18F84]">
+                                    {{ $listing->remainingQuantity() }} still available
+                                </p>
+
+                                <input type="number"
+                                    id="quantity"
+                                    name="quantity"
+                                    min="1"
+                                    max="{{ $listing->remainingQuantity() }}"
+                                    value="{{ old('quantity', 1) }}"
+                                    class="mt-3 w-full rounded-full border border-[#EAD8CD] bg-[#FFF8F2] px-5 py-3 text-sm focus:border-[#E9A17D] focus:outline-none focus:ring-2 focus:ring-[#E9A17D]/40">
+
+                                @error('quantity')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+
+                                <button type="submit"
+                                        class="mt-4 w-full rounded-full bg-[#E9A17D] px-8 py-4 text-sm font-bold text-[#4A342B] transition hover:-translate-y-0.5 hover:bg-[#D98E69]">
+                                    Reserve this food
+                                </button>
+                            </form>
+                        @endif
                     @endguest
                 </div>
             </div>
