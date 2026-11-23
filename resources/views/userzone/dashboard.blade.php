@@ -48,6 +48,14 @@
                 <p class="mt-2 text-sm text-[#88766D]">Create and manage your organizations.</p>
             </a>
 
+            @if (auth()->user()->isAdmin())
+                <a href="{{ route('admin.dashboard') }}"
+                class="rounded-[1.75rem] border border-[#E9A17D]/40 bg-[#F7E8DE] p-8 transition hover:-translate-y-1 hover:shadow-xl">
+                    <h2 class="brand-font text-xl font-extrabold text-[#4A342B]">Admin</h2>
+                    <p class="mt-2 text-sm text-[#806B60]">Manage categories and see the platform numbers.</p>
+                </a>
+            @endif
+
             <a href="{{ route('profile.edit') }}"
                 class="rounded-[1.75rem] border border-[#EAD8CD] bg-white p-8 transition hover:-translate-y-1 hover:shadow-xl">
                 <h2 class="brand-font text-xl font-extrabold text-[#4A342B]">My profile</h2>
