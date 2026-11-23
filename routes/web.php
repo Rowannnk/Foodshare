@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Userzone\OrganizationController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\FoodCategoryController;
+use App\Http\Controllers\Userzone\PickupController;
 
 /*
  * Public Website routes
@@ -41,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
     Route::resource('my-listings', FoodListingController::class)
         ->parameters(['my-listings' => 'foodListing']);
+
+    Route::get('/pickups', [PickupController::class, 'index'])->name('pickups.index');
+    Route::post('/pickups/{pickup}/confirm', [PickupController::class, 'confirm'])->name('pickups.confirm');
 
 
     Route::resource('organizations', OrganizationController::class);
