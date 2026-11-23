@@ -53,6 +53,15 @@ class User extends Authenticatable
     public function isAdmin(): bool{
         return $this->role === UserRole::ADMIN;
     }
+    public function isDonor(): bool
+    {
+        return $this->role === UserRole::DONOR;
+    }
+
+    public function isRecipient(): bool
+    {
+        return $this->role === UserRole::RECIPIENT;
+    }
 
     public function organizations(): HasMany
     {
