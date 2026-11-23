@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Enums\ReservationStatus;
 
 class FoodListing extends Model
 {
@@ -46,5 +47,24 @@ class FoodListing extends Model
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function reservedQuantity(): int
+    {
+        return (int) $this->reservations()
+            ->where('status', '!=', ReservationStatus::CANCELLED)
+            ->sum('quantity');
+    }
+
+    public function remainingQuantity(): int
+    {
+        return max(0, $this->quantity - $this->reservedQuantity());
+    }
+
+    public function isReservable(): bool
+    {
+        return $this->status === ListingStatus::AVAILABLE
+            && $this->remainingQuantity() > 0
+            && $this->pickup_until->isFuture();
     }
 }
