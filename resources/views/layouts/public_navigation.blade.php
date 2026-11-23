@@ -33,18 +33,22 @@
             </a>
 
             @auth
-            @if (auth()->user()->isRecipient())
-                <a href="{{ route('reservations.index') }}"
+                @if (auth()->user()->isRecipient())
+                    <a href="{{ route('reservations.index') }}"
+                    class="transition hover:text-[#B96F4D]">
+                        My reservations
+                    </a>
+                @endif
+                @if (auth()->user()->isDonor() || auth()->user()->isAdmin())
+                    <a href="{{ route('my-listings.index') }}"
+                    class="transition hover:text-[#B96F4D]">
+                        My listings
+                    </a>
+                @endif
+                <a href="{{ route('organizations.index') }}"
                 class="transition hover:text-[#B96F4D]">
-                    My reservations
+                    Organizations
                 </a>
-            @endif
-            @if (auth()->user()->isDonor() || auth()->user()->isAdmin())
-                <a href="{{ route('my-listings.index') }}"
-                class="transition hover:text-[#B96F4D]">
-                    My listings
-                </a>
-            @endif
                 <a href="{{ route('dashboard') }}"
                    class="transition hover:text-[#B96F4D]">
                     Dashboard
@@ -102,18 +106,22 @@
                 </a>
 
                 @auth
-                @if (auth()->user()->isRecipient())
-                    <a href="{{ route('reservations.index') }}"
+                    @if (auth()->user()->isRecipient())
+                        <a href="{{ route('reservations.index') }}"
+                        class="transition hover:text-[#B96F4D]">
+                            My reservations
+                        </a>
+                    @endif
+                    @if (auth()->user()->isDonor() || auth()->user()->isAdmin())
+                        <a href="{{ route('my-listings.index') }}"
+                        class="transition hover:text-[#B96F4D]">
+                            My listings
+                        </a>
+                    @endif
+                    <a href="{{ route('organizations.index') }}"
                     class="transition hover:text-[#B96F4D]">
-                        My reservations
+                        Organizations
                     </a>
-                @endif
-                @if (auth()->user()->isDonor() || auth()->user()->isAdmin())
-                    <a href="{{ route('my-listings.index') }}"
-                    class="transition hover:text-[#B96F4D]">
-                        My listings
-                    </a>
-                @endif
                     <a href="{{ route('dashboard') }}"
                        class="block rounded-xl px-4 py-3 text-sm font-semibold transition hover:bg-[#FFF3EB]">
                         Dashboard
