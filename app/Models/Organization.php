@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Organization extends Model
 {
@@ -29,4 +30,17 @@ class Organization extends Model
     {
         return $this->hasMany(FoodListing::class);
     }
+
+    public static function generateSlug(string $name): string
+        {
+            $base = Str::slug($name) ?: 'organization';
+            $slug = $base;
+            $counter = 2;
+
+            while (static::where('slug', $slug)->exists()) {
+                $slug = $base.'-'.$counter++;
+            }
+
+            return $slug;
+        }
 }

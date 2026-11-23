@@ -6,5 +6,5 @@ enum UserRole : string
 {
     case ADMIN = 'admin';
     case DONOR = 'donor';
-    case RECIPIENT = 'recipient';
+    case RECIPENT = 'recipent';
 }
