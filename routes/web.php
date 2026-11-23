@@ -9,6 +9,8 @@ use App\Http\Controllers\Userzone\ReservationController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Userzone\OrganizationController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\FoodCategoryController;
 
 /*
  * Public Website routes
@@ -42,6 +44,11 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('organizations', OrganizationController::class);
+    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', AdminDashboardController::class)->name('dashboard');
+    Route::resource('categories', FoodCategoryController::class)
+        ->parameters(['categories' => 'category']);
+    });
 
     // For the user's profile management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
