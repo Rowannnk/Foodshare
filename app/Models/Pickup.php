@@ -6,6 +6,7 @@ use App\Enums\PickupStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Pickup extends Model
 {
@@ -35,5 +36,14 @@ class Pickup extends Model
     public function confirmedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'confirmed_by');
+    }
+
+    public static function generateCode(): string
+    {
+        do {
+            $code = strtoupper(Str::random(4)).'-'.random_int(1000, 9999);
+        } while (static::where('pickup_code', $code)->exists());
+
+        return $code;
     }
 }
