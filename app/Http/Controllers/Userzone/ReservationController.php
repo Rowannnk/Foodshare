@@ -34,6 +34,11 @@ class ReservationController extends Controller
 
     public function store(StoreReservationRequest $request, FoodListing $foodListing): RedirectResponse
     {
+        if (! $request->user()->hasActiveOrganization()) {
+            return back()->withErrors([
+                'quantity' => 'You need an active organization before you can reserve food.',
+            ]);
+        }
         if (! $foodListing->isReservable()) {
             return back()->withErrors(['quantity' => 'This food cannot be reserved any more.']);
         }
