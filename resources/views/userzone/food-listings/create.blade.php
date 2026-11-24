@@ -12,9 +12,10 @@
         <p class="mt-2 text-[#88766D]">Tell charities what surplus food you have.</p>
 
         @if ($organizations->isEmpty())
-            <p class="mt-8 rounded-2xl bg-[#F7E8DE] px-5 py-4 text-sm text-[#8E583D]">
+            <div class="mt-8 rounded-2xl bg-[#F7E8DE] px-5 py-4 text-sm text-[#8E583D]">
                 You need an active organization before you can publish food.
-            </p>
+                <a href="{{ route('organizations.create') }}" class="font-bold underline">Create your organization</a>
+            </div>
         @else
             <form method="POST" action="{{ route('my-listings.store') }}"
                   class="mt-8 rounded-[1.75rem] border border-[#EAD8CD] bg-white p-8">

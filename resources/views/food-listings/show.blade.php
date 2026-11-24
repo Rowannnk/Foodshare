@@ -62,6 +62,11 @@
                             <p class="rounded-2xl bg-[#F7E8DE] px-5 py-4 text-sm text-[#8E583D]">
                                 Only recipient accounts (charities) can reserve food.
                             </p>
+                        @elseif (! auth()->user()->hasActiveOrganization())
+                            <div class="rounded-2xl bg-[#F7E8DE] px-5 py-4 text-sm text-[#8E583D]">
+                                You need an active organization before you can reserve food.
+                                <a href="{{ route('organizations.create') }}" class="font-bold underline">Create your organization</a>
+                            </div>
                         @elseif (! $listing->isReservable())
                             <p class="rounded-2xl bg-[#F7E8DE] px-5 py-4 text-sm text-[#8E583D]">
                                 This food cannot be reserved right now.
