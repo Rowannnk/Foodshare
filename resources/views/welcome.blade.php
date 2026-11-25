@@ -6,50 +6,50 @@
 
             <div>
 
-                <div class="inline-flex items-center rounded-full border border-[#E9A17D]/60 bg-white px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#A66A4D]">
-                    Good food deserves another chance
-                </div>
+            <h1 class="brand-font mt-8 text-5xl font-extrabold leading-[1.08] tracking-tight text-[#4A342B] sm:text-6xl lg:text-7xl">
+                Share more.
+                <span class="block text-[#C77D56]">Waste less.</span>
+            </h1>
 
-                <h1 class="brand-font mt-8 max-w-xl text-5xl font-extrabold leading-[1.12] tracking-tight text-[#4A342B] sm:text-6xl lg:text-7xl">
-                    Share more.
-                    <span class="text-[#C77D56]">Waste less.</span>
-                </h1>
+            <p class="mt-7 max-w-lg text-lg leading-8 text-[#88766D]">
+                FoodLoop connects food businesses with charities, so surplus food
+                reaches people who need it instead of the bin.
+            </p>
 
-                <p class="mt-7 max-w-lg text-lg leading-8 text-[#88766D]">
-                    Every day, good food goes to waste while communities need it.
-                    FoodLoop brings food businesses and charities together to
-                    make sure more meals reach the people who need them.
-                </p>
+            <div class="mt-9 flex flex-wrap gap-4">
+                @guest
+                    <a href="{{ route('register') }}"
+                       class="rounded-full bg-[#E9A17D] px-8 py-4 text-sm font-bold text-[#4A342B] shadow-lg shadow-[#E9A17D]/30 transition hover:-translate-y-1 hover:bg-[#D98E69]">
+                        Join FoodLoop
+                    </a>
+                @else
+                    <a href="{{ route('dashboard') }}"
+                       class="rounded-full bg-[#E9A17D] px-8 py-4 text-sm font-bold text-[#4A342B] shadow-lg shadow-[#E9A17D]/30 transition hover:-translate-y-1 hover:bg-[#D98E69]">
+                        Go to dashboard
+                    </a>
+                @endguest
 
-                <div class="mt-9 flex flex-wrap gap-4">
-
-                    @guest
-                        <a href="{{ route('register') }}"
-                           class="rounded-full bg-[#E9A17D] px-8 py-4 text-sm font-bold text-[#4A342B] shadow-lg shadow-[#E9A17D]/25 transition hover:-translate-y-1 hover:bg-[#D98E69]">
-                            Join FoodLoop
-                        </a>
-
-                        <a href="{{ route('login') }}"
-                           class="rounded-full border border-[#EAD8CD] bg-white px-8 py-4 text-sm font-bold text-[#4A342B] transition hover:border-[#E9A17D] hover:bg-[#FFF3EB]">
-                            Log in
-                        </a>
-                    @else
-                        <a href="{{ route('dashboard') }}"
-                           class="rounded-full bg-[#E9A17D] px-8 py-4 text-sm font-bold text-[#4A342B] shadow-lg transition hover:-translate-y-1 hover:bg-[#D98E69]">
-                            Go to dashboard
-                        </a>
-                    @endguest
-
-                </div>
-
-                <div class="mt-10 border-l-2 border-[#E9A17D] pl-4">
-                    <p class="text-sm leading-6 text-[#88766D]">
-                        Connecting local food donors and community organizations
-                        to make better use of surplus food.
-                    </p>
-                </div>
-
+                <a href="{{ route('food-listings.index') }}"
+                   class="rounded-full border border-[#EAD8CD] bg-white px-8 py-4 text-sm font-bold text-[#4A342B] transition hover:border-[#E9A17D] hover:bg-[#FFF3EB]">
+                    Browse available food
+                </a>
             </div>
+
+            <ul class="mt-10 grid max-w-lg gap-3 text-sm font-semibold text-[#6B5A51] sm:grid-cols-3">
+                <li class="flex items-center gap-2">
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-[#F7E8DE] text-xs text-[#B96F4D]">✓</span>
+                    Simple reservations
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-[#F7E8DE] text-xs text-[#B96F4D]">✓</span>
+                    Pickup with a code
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-[#F7E8DE] text-xs text-[#B96F4D]">✓</span>
+                    Less food waste
+                </li>
+            </ul>
+        </div>
 
             <div class="relative">
 
