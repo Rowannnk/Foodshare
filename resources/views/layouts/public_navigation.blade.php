@@ -8,9 +8,8 @@
 <header x-data="{ menu: false, user: false }"
         class="sticky top-0 z-50 border-b border-[#EAD8CD] bg-[#FFF8F2]/90 backdrop-blur-xl">
 
-    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
+    <div class="mx-auto flex h-20 items-center justify-between px-6 lg:px-8 {{ ($showAdminSidebar ?? false) ? 'max-w-none' : 'max-w-7xl' }}">
 
-        {{-- Logo --}}
         <a href="{{ route('welcome') }}" class="flex items-center gap-3">
             <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E9A17D] text-xl font-extrabold text-[#4A342B]">
                 F
@@ -20,7 +19,6 @@
             </span>
         </a>
 
-        {{-- Main links (big screens) --}}
         <nav class="hidden items-center gap-1 md:flex">
             <a href="{{ route('welcome') }}"
             class="{{ $linkBase }} {{ request()->routeIs('welcome') ? $linkActive : $linkIdle }}">
@@ -44,7 +42,6 @@
             @endguest
         </nav>
 
-        {{-- Right side (big screens) --}}
         <div class="hidden items-center gap-3 md:flex">
             @auth
                 <div class="relative" @click.outside="user = false">
@@ -82,10 +79,6 @@
 
                             <a href="{{ route('organizations.index') }}" class="{{ $itemClass }}">Organizations</a>
                             <a href="{{ route('pickups.index') }}" class="{{ $itemClass }}">Pickups</a>
-
-                            @if (auth()->user()->isAdmin())
-                                <a href="{{ route('admin.dashboard') }}" class="{{ $itemClass }}">Admin</a>
-                            @endif
                         </div>
 
                         <div class="mt-2 border-t border-[#EAD8CD] pt-2">
@@ -110,7 +103,6 @@
             @endauth
         </div>
 
-        {{-- Menu button (small screens) --}}
         <button type="button" @click="menu = ! menu"
                 class="rounded-full border border-[#EAD8CD] bg-white p-3 text-[#4A342B] md:hidden"
                 aria-label="Open menu">
@@ -121,7 +113,6 @@
         </button>
     </div>
 
-    {{-- Phone menu --}}
     <div x-show="menu" x-transition style="display: none;"
          class="border-t border-[#EAD8CD] bg-white md:hidden">
         <div class="space-y-1 px-4 py-4">
@@ -154,11 +145,6 @@
 
                 <a href="{{ route('organizations.index') }}" class="{{ $itemClass }}">Organizations</a>
                 <a href="{{ route('pickups.index') }}" class="{{ $itemClass }}">Pickups</a>
-
-                @if (auth()->user()->isAdmin())
-                    <a href="{{ route('admin.dashboard') }}" class="{{ $itemClass }}">Admin</a>
-                @endif
-
                 <a href="{{ route('profile.edit') }}" class="{{ $itemClass }}">Profile</a>
 
                 <form method="POST" action="{{ route('logout') }}">
