@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Userzone;
 use App\Enums\ListingStatus;
 use App\Enums\PickupStatus;
 use App\Enums\ReservationStatus;
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
+use App\Models\FoodCategory;
 use App\Models\FoodListing;
+use App\Models\Organization;
 use App\Models\Pickup;
+use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -17,6 +22,23 @@ class DashboardController extends Controller
     {
         $user = $request->user();
         $data = [];
+
+        if ($user->isAdmin()) {
+            $data = [
+                'userCount' => User::count(),
+                'organizationCount' => Organization::count(),
+                'categoryCount' => FoodCategory::count(),
+                'listingCount' => FoodListing::count(),
+                'reservationCount' => Reservation::count(),
+                'pendingPickupCount' => Pickup::where('status', PickupStatus::PENDING)->count(),
+                'donorCount' => User::where('role', UserRole::DONOR)->count(),
+                'recipientCount' => User::where('role', UserRole::RECIPIENT)->count(),
+                'recentReservations' => Reservation::with(['user', 'foodListing'])
+                    ->latest()
+                    ->take(5)
+                    ->get(),
+            ];
+        }
 
         if ($user->isDonor()) {
             $ownListings = fn () => FoodListing::whereHas(
