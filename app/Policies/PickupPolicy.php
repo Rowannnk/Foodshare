@@ -14,7 +14,6 @@ class PickupPolicy
 
     public function confirm(User $user, Pickup $pickup): bool
     {
-        return $user->isAdmin()
-            || ($user->isDonor() && $pickup->reservation->foodListing->organization->user_id === $user->id);
+        return($user->isDonor() && $pickup->reservation->foodListing->organization->user_id === $user->id);
     }
 }

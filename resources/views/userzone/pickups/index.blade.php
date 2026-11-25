@@ -13,8 +13,10 @@
             <p class="mt-3 max-w-xl text-[#88766D]">
                 @if (auth()->user()->isRecipient())
                     Show your pickup code to the donor when you collect your food.
-                @else
+                @elseif (auth()->user()->isDonor())
                     Ask the recipient for the pickup code, then type it to confirm that the food was collected.
+                @else
+                    You can follow all pickups here. Only the donor who owns the food can confirm a pickup.
                 @endif
             </p>
         </div>
@@ -63,7 +65,7 @@
 
                     <div class="flex flex-col gap-3 lg:items-end">
 
-                        @if (auth()->user()->isRecipient() || auth()->user()->isAdmin())
+                        @if (auth()->user()->isRecipient())
                             <div class="rounded-2xl bg-[#FFF8F2] px-5 py-3 text-center">
                                 <p class="text-xs text-[#A18F84]">Pickup code</p>
                                 <p class="brand-font text-xl font-extrabold tracking-wider text-[#4A342B]">
