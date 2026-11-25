@@ -3,9 +3,6 @@
     <section class="border-b border-[#EAD8CD] bg-white">
         <div class="mx-auto flex max-w-7xl flex-col justify-between gap-6 px-6 py-14 sm:flex-row sm:items-end lg:px-8">
             <div>
-                <a href="{{ route('admin.dashboard') }}" class="text-sm font-semibold text-[#B96F4D] hover:underline">
-                    &larr; Admin
-                </a>
                 <h1 class="brand-font mt-3 text-4xl font-extrabold tracking-tight text-[#4A342B] sm:text-5xl">
                     Food categories
                 </h1>
