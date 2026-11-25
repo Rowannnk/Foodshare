@@ -54,7 +54,11 @@
 </head>
 
 <body class="bg-[#FFF8F2] text-[#4A342B] antialiased">
-
+    @php
+        $showAdminSidebar = auth()->check()
+            && auth()->user()->isAdmin()
+            && request()->routeIs('dashboard', 'admin.*', 'organizations.*', 'my-listings.*', 'pickups.*');
+    @endphp
     @include('layouts.public_navigation')
     @if (session('success'))
         <div class="mx-auto mt-6 max-w-7xl px-6 lg:px-8">
@@ -64,9 +68,19 @@
         </div>
     @endif
 
-    <main>
-        {{ $slot }}
-    </main>
+    @if ($showAdminSidebar)
+        <div class="flex min-h-[calc(100vh-5rem)] flex-col lg:flex-row">
+            <x-admin-sidebar />
+
+            <main class="min-w-0 flex-1">
+                {{ $slot }}
+            </main>
+        </div>
+    @else
+        <main>
+            {{ $slot }}
+        </main>
+    @endif
 
     <footer class="mt-20 bg-[#4A342B] text-white">
         <div class="mx-auto max-w-7xl px-6 py-14 lg:px-8">
