@@ -14,6 +14,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class FoodListingController extends Controller
 {
@@ -47,9 +49,10 @@ class FoodListingController extends Controller
     {
         Gate::authorize('create', FoodListing::class);
 
-        $foodListing = FoodListing::create(
-            $request->validated() + ['status' => ListingStatus::AVAILABLE]
-        );
+        $data = Arr::except($request->validated(), 'photo');
+        $data['photo_path'] = $request->file('photo')->store('food-listings', 'public');
+
+        $foodListing = FoodListing::create($data + ['status' => ListingStatus::AVAILABLE]);
 
         return redirect()
             ->route('my-listings.show', $foodListing)
@@ -80,7 +83,17 @@ class FoodListingController extends Controller
     {
         Gate::authorize('update', $foodListing);
 
-        $foodListing->update($request->validated());
+        $data = Arr::except($request->validated(), 'photo');
+
+        if ($request->hasFile('photo')) {
+            if ($foodListing->photo_path) {
+                Storage::disk('public')->delete($foodListing->photo_path);
+            }
+
+            $data['photo_path'] = $request->file('photo')->store('food-listings', 'public');
+        }
+
+        $foodListing->update($data);
 
         return redirect()
             ->route('my-listings.show', $foodListing)
@@ -99,6 +112,10 @@ class FoodListingController extends Controller
             return back()->withErrors([
                 'listing' => 'This listing has active reservations, so it cannot be deleted.',
             ]);
+        }
+
+        if ($foodListing->photo_path) {
+            Storage::disk('public')->delete($foodListing->photo_path);
         }
 
         $foodListing->delete();
