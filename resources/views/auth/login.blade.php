@@ -1,47 +1,83 @@
 <x-guest-layout>
-    <!-- Session Status -->
+    <div class="mb-8">
+        <p class="text-xs font-extrabold uppercase tracking-[0.2em] text-[#B96F4D]">
+            Welcome back
+        </p>
+        <h1 class="brand-font mt-3 text-3xl font-extrabold text-[#4A342B]">
+            Login to FoodLoop
+        </h1>
+        <p class="mt-2 text-sm text-[#88766D]">
+            Sign in to continue sharing good food.
+        </p>
+    </div>
+
     <x-breeze.auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" class="space-y-5">
         @csrf
 
-        <!-- Email Address -->
+        {{-- Email --}}
         <div>
-            <x-breeze.input-label for="email" value="Email" />
-            <x-breeze.text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-breeze.input-label for="email" value="Email address" class="!text-[#4A342B]" />
+            <x-breeze.text-input
+                id="email"
+                class="mt-2 block w-full rounded-xl border-[#EAD8CD] focus:border-[#B96F4D] focus:ring-[#B96F4D]"
+                type="email"
+                name="email"
+                :value="old('email')"
+                required
+                autofocus
+                autocomplete="username"
+            />
             <x-breeze.input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-breeze.input-label for="password" value="Password" />
-
-            <x-breeze.text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
+        {{-- Password --}}
+        <div>
+            <x-breeze.input-label for="password" value="Password" class="!text-[#4A342B]" />
+            <x-breeze.text-input
+                id="password"
+                class="mt-2 block w-full rounded-xl border-[#EAD8CD] focus:border-[#B96F4D] focus:ring-[#B96F4D]"
+                type="password"
+                name="password"
+                required
+                autocomplete="current-password"
+            />
             <x-breeze.input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded-sm border-gray-300 text-indigo-600 shadow-xs focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">Remember me</span>
+        {{-- Remember me and Forgot password --}}
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <label for="remember_me" class="inline-flex items-center gap-2">
+                <input
+                    id="remember_me"
+                    type="checkbox"
+                    name="remember"
+                    class="rounded border-[#D8C5B9] text-[#B96F4D] shadow-sm focus:ring-[#B96F4D]"
+                >
+                <span class="text-sm text-[#88766D]">Remember me</span>
             </label>
-        </div>
 
-        <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    Forgot your password?
+                <a href="{{ route('password.request') }}"
+                   class="text-sm font-semibold text-[#B96F4D] transition hover:text-[#8E583D] hover:underline">
+                    Forgot password?
                 </a>
             @endif
-
-            <x-breeze.primary-button class="ms-3">
-                Log in
-            </x-breeze.primary-button>
         </div>
+
+        {{-- Login button --}}
+        <button type="submit"
+                class="w-full rounded-full bg-[#E9A17D] px-6 py-3.5 text-sm font-extrabold text-[#4A342B] transition hover:bg-[#D98E69] focus:outline-none focus:ring-2 focus:ring-[#B96F4D] focus:ring-offset-2">
+            Login
+        </button>
+
+        <p class="pt-2 text-center text-sm text-[#88766D]">
+            Don't have an account?
+            <a href="{{ route('register') }}"
+               class="font-bold text-[#B96F4D] hover:underline">
+                Register
+            </a>
+        </p>
     </form>
 </x-guest-layout>
