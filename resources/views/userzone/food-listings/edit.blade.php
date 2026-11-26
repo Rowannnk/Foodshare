@@ -10,7 +10,7 @@
             Edit listing
         </h1>
 
-        <form method="POST" action="{{ route('my-listings.update', $listing) }}"
+        <form method="POST" action="{{ route('my-listings.update', $listing) }}" enctype="multipart/form-data"
               class="mt-8 rounded-[1.75rem] border border-[#EAD8CD] bg-white p-8">
             @csrf
             @method('PUT')

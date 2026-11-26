@@ -50,6 +50,24 @@
         @error('description') <p class="{{ $error }}">{{ $message }}</p> @enderror
     </div>
 
+        <div class="sm:col-span-2">
+        <label for="photo" class="{{ $label }}">
+            {{ $listing ? 'Photo (leave empty to keep the current one)' : 'Photo' }}
+        </label>
+
+        @if ($listing?->photo_path)
+            <img src="{{ $listing->photoUrl() }}" alt="Current photo"
+                 class="mt-3 h-32 w-48 rounded-2xl object-cover">
+        @endif
+
+        <input type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp"
+               class="mt-3 block w-full text-sm text-[#806F66] file:mr-4 file:rounded-full file:border-0 file:bg-[#F7E8DE] file:px-5 file:py-2 file:text-sm file:font-bold file:text-[#8E583D] hover:file:bg-[#EAD8CD]"
+               @required(! $listing)>
+        <p class="mt-2 text-xs text-[#A18F84]">JPG, PNG or WebP, up to 2 MB.</p>
+
+        @error('photo') <p class="{{ $error }}">{{ $message }}</p> @enderror
+    </div>
+
     <div>
         <label for="quantity" class="{{ $label }}">Quantity</label>
         <input type="number" id="quantity" name="quantity" min="1"

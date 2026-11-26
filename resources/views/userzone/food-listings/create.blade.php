@@ -17,7 +17,7 @@
                 <a href="{{ route('organizations.create') }}" class="font-bold underline">Create your organization</a>
             </div>
         @else
-            <form method="POST" action="{{ route('my-listings.store') }}"
+            <form method="POST" action="{{ route('my-listings.store') }}" enctype="multipart/form-data"
                   class="mt-8 rounded-[1.75rem] border border-[#EAD8CD] bg-white p-8">
                 @csrf
 
