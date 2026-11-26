@@ -6,7 +6,6 @@ use App\Enums\ListingStatus;
 use App\Enums\ReservationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FoodListingRequest;
-use App\Models\FoodCategory;
 use App\Models\FoodListing;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
@@ -15,6 +14,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use App\Services\FoodCategoryService;
 
 class FoodListingController extends Controller
 {
@@ -137,9 +137,7 @@ class FoodListingController extends Controller
                 ->orderBy('name')
                 ->get(),
 
-            'categories' => FoodCategory::where('is_active', true)
-                ->orderBy('name')
-                ->get(),
+            'categories' => app(FoodCategoryService::class)->getActiveCategories(),
         ];
     }
 }
