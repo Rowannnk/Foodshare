@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
+use App\Notifications\PickupConfirmed;
 
 class PickupController extends Controller
 {
@@ -71,6 +72,7 @@ class PickupController extends Controller
                 $listing->update(['status' => ListingStatus::COLLECTED]);
             }
         });
+        $pickup->reservation->user->notify(new PickupConfirmed($pickup));
 
         return redirect()
             ->route('pickups.index')
