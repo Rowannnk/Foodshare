@@ -49,7 +49,8 @@
                         @foreach ($listings as $listing)
                             <tr>
                                 <td class="px-6 py-4 font-semibold text-[#4A342B]">
-                                    <a href="{{ route('my-listings.show', $listing) }}" class="hover:underline">
+                                    <a href="{{ route('my-listings.show', $listing) }}" class="flex items-center gap-3 hover:underline">
+                                        <x-listing-thumb :listing="$listing" />
                                         {{ $listing->title }}
                                     </a>
                                 </td>

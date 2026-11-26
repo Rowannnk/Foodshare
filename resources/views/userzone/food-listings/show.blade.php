@@ -31,6 +31,8 @@
             </div>
         </div>
 
+        <img src="{{ $listing->photoUrl() }}" alt="{{ $listing->title }}" class="mt-6 h-64 w-full rounded-[1.75rem] object-cover sm:h-80">
+
         @if ($listing->description)
             <p class="mt-6 max-w-2xl leading-7 text-[#6B5A51]">{{ $listing->description }}</p>
         @endif
