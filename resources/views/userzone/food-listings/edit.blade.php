@@ -2,7 +2,7 @@
 
     <section class="mx-auto max-w-3xl px-6 py-12 lg:px-8">
 
-        <a href="{{ route('my-listings.show', $listing) }}" class="text-sm font-semibold text-[#B96F4D] hover:underline">
+        <a href="{{ route('my-listings.index') }}" class="text-sm font-semibold text-[#B96F4D] hover:underline">
             &larr; Back to listing
         </a>
 
