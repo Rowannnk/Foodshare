@@ -6,6 +6,7 @@ use App\Enums\ListingStatus;
 use App\Enums\ReservationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FoodListingRequest;
+use App\Models\FoodCategory;
 use App\Models\FoodListing;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
@@ -18,19 +19,75 @@ use App\Services\FoodCategoryService;
 
 class FoodListingController extends Controller
 {
-    public function index(): View
+    
+    public function index(Request $request): View
     {
         Gate::authorize('viewAny', FoodListing::class);
 
-        $listings = FoodListing::with(['organization', 'foodCategory'])
-            ->withCount('reservations')
+        $search = trim($request->input('search', ''));
+        $status = $request->input('status', '');
+        $categoryId = $request->input('food_category_id', '');
+        $organizationId = $request->input('organization_id', '');
+
+        $statuses = collect(ListingStatus::cases())
+            ->mapWithKeys(fn (ListingStatus $listingStatus) => [
+                $listingStatus->value => ucfirst($listingStatus->value),
+            ])
+            ->all();
+
+        $categories = FoodCategory::orderBy('name')
+            ->pluck('name', 'id')
+            ->all();
+
+        $organizations = Organization::orderBy('name')
+            ->pluck('name', 'id')
+            ->all();
+
+        $query = FoodListing::with(['organization', 'foodCategory'])
+            ->withCount('reservations');
+
+        if ($search !== '') {
+            $query->where(function ($searchQuery) use ($search) {
+                $searchQuery->where('title', 'like', "%{$search}%")
+                    ->orWhereHas('organization', function ($organizationQuery) use ($search) {
+                        $organizationQuery->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+        if (array_key_exists($status, $statuses)) {
+            $query->where('status', $status);
+        } else {
+            $status = '';
+        }
+        if (array_key_exists((int) $categoryId, $categories)) {
+            $query->where('food_category_id', $categoryId);
+        } else {
+            $categoryId = '';
+        }
+
+        if (array_key_exists((int) $organizationId, $organizations)) {
+            $query->where('organization_id', $organizationId);
+        } else {
+            $organizationId = '';
+        }
+
+        $listings = $query
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.food-listings.index', [
             'listings' => $listings,
+            'search' => $search,
+            'statuses' => $statuses,
+            'categories' => $categories,
+            'organizations' => $organizations,
+            'selectedStatus' => $status,
+            'selectedCategory' => $categoryId,
+            'selectedOrganization' => $organizationId,
         ]);
     }
+
 
     public function create(): View
     {
