@@ -1,4 +1,4 @@
-<x-layouts.public title="Edit category - Admin - FoodLoop">
+<x-layouts.admin title="Edit category - Admin - FoodLoop">
 
     <section class="mx-auto max-w-2xl px-6 py-12 lg:px-8">
 
@@ -30,4 +30,4 @@
         </form>
     </section>
 
-</x-layouts.public>
+</x-layouts.admin>
