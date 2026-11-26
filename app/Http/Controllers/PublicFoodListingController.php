@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ListingStatus;
-use App\Models\FoodCategory;
 use App\Models\FoodListing;
+use App\Services\FoodCategoryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -42,7 +42,7 @@ class PublicFoodListingController extends Controller
 
         return view('food-listings.index', [
             'listings' => $listings,
-            'categories' => FoodCategory::where('is_active', true)->orderBy('name')->get(),
+            'categories' => app(FoodCategoryService::class)->getActiveCategories(),
         ]);
     }
 
