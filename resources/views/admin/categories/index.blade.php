@@ -122,9 +122,6 @@
                                        class="font-bold text-[#4A342B] transition hover:text-[#B96F4D]">
                                         {{ $category->name }}
                                     </a>
-                                    <p class="mt-1 text-xs text-[#A18F84]">
-                                        Category #{{ $category->id }}
-                                    </p>
                                 </td>
 
                                 <td class="px-6 py-5">
