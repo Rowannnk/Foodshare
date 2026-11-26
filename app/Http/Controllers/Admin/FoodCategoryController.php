@@ -7,21 +7,45 @@ use App\Http\Requests\FoodCategoryRequest;
 use App\Models\FoodCategory;
 use App\Services\FoodCategoryService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class FoodCategoryController extends Controller
 {
-    public function index(): View
+   public function index(Request $request): View
     {
         Gate::authorize('viewAny', FoodCategory::class);
 
-        $categories = FoodCategory::withCount('foodListings')
+        $search = trim($request->input('search', ''));
+        $status = $request->input('status', '');
+
+        $query = FoodCategory::withCount('foodListings');
+
+        if ($search !== '') {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%");
+            });
+        }
+
+        if ($status === 'active') {
+            $query->where('is_active', true);
+        } elseif ($status === 'inactive') {
+            $query->where('is_active', false);
+        } else {
+            $status = '';
+        }
+
+        $categories = $query
             ->orderBy('name')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.categories.index', [
             'categories' => $categories,
+            'search' => $search,
+            'status' => $status,
         ]);
     }
 
