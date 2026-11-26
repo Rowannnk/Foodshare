@@ -38,10 +38,13 @@
             @forelse ($listings as $listing)
                 <a href="{{ route('food-listings.show', $listing) }}"
                    class="flex items-center justify-between rounded-2xl border border-[#EAD8CD] bg-white p-5 transition hover:shadow-lg">
-                    <div>
-                        <p class="font-bold text-[#4A342B]">{{ $listing->title }}</p>
-                        <p class="text-sm text-[#88766D]">{{ $listing->organization->name }}</p>
-                    </div>
+                   <div class="flex items-center gap-4">
+                        <x-listing-thumb :listing="$listing" />
+                        <div>
+                            <p class="font-bold text-[#4A342B]">{{ $listing->title }}</p>
+                            <p class="text-sm text-[#88766D]">{{ $listing->organization->name }}</p>
+                        </div>
+                   </div>
                     <span class="rounded-full bg-[#F7E8DE] px-3 py-1 text-xs font-bold capitalize text-[#8E583D]">
                         {{ $listing->status->value }}
                     </span>
