@@ -58,7 +58,7 @@
                 <div class="relative overflow-hidden rounded-[2rem] bg-[#F1D8C8] p-3 shadow-xl shadow-[#4A342B]/10">
 
                     <img
-                        src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=85"
+                        src="{{ $listing->photoUrl() }}"
                         alt="Fresh food and vegetables prepared for sharing"
                         class="h-[420px] w-full rounded-[1.5rem] object-cover sm:h-[520px]"
                     >

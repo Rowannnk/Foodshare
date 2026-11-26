@@ -7,7 +7,7 @@
         <div class="mt-6 grid gap-10 lg:grid-cols-[1.2fr_1fr]">
             <div class="overflow-hidden rounded-[2rem] bg-[#F1D8C8] p-3 shadow-xl shadow-[#4A342B]/10">
                 <img
-                    src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85"
+                    src="{{ $listing->photoUrl() }}"
                     alt="{{ $listing->title }}"
                     class="h-[320px] w-full rounded-[1.5rem] object-cover sm:h-[460px]">
             </div>

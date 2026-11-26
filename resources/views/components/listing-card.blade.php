@@ -5,7 +5,7 @@
 
     <div class="relative h-56 overflow-hidden bg-[#F1D8C8]">
         <img
-            src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80"
+            src="{{ $listing->photoUrl() }}"
             alt="{{ $listing->title }}"
             loading="lazy"
             class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
