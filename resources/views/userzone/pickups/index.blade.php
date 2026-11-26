@@ -38,29 +38,31 @@
                 @endphp
 
                 <article class="flex flex-col gap-6 rounded-[1.5rem] border border-[#EAD8CD] bg-white p-6 lg:flex-row lg:items-center lg:justify-between">
+                    <div class="flex items-start gap-4">
+                        <x-listing-thumb :listing="$listing" size="h-20 w-20" />
+                        <div>
+                            <span class="rounded-full bg-[#F7E8DE] px-3 py-1 text-xs font-extrabold uppercase tracking-widest text-[#8E583D]">
+                                {{ $pickup->status->value }}
+                            </span>
 
-                    <div>
-                        <span class="rounded-full bg-[#F7E8DE] px-3 py-1 text-xs font-extrabold uppercase tracking-widest text-[#8E583D]">
-                            {{ $pickup->status->value }}
-                        </span>
+                            <h2 class="brand-font mt-3 text-xl font-extrabold text-[#4A342B]">
+                                {{ $listing->title }}
+                            </h2>
 
-                        <h2 class="brand-font mt-3 text-xl font-extrabold text-[#4A342B]">
-                            {{ $listing->title }}
-                        </h2>
-
-                        <p class="mt-1 text-sm text-[#88766D]">
-                            {{ $reservation->quantity }} items from {{ $listing->organization->name }}
-                        </p>
-
-                        @unless (auth()->user()->isRecipient())
                             <p class="mt-1 text-sm text-[#88766D]">
-                                Recipient: {{ $reservation->user->name }}
+                                {{ $reservation->quantity }} items from {{ $listing->organization->name }}
                             </p>
-                        @endunless
 
-                        <p class="mt-1 text-sm text-[#88766D]">
-                            Pickup {{ $listing->pickup_from->format('d M, H:i') }} - {{ $listing->pickup_until->format('H:i') }}
-                        </p>
+                            @unless (auth()->user()->isRecipient())
+                                <p class="mt-1 text-sm text-[#88766D]">
+                                    Recipient: {{ $reservation->user->name }}
+                                </p>
+                            @endunless
+
+                            <p class="mt-1 text-sm text-[#88766D]">
+                                Pickup {{ $listing->pickup_from->format('d M, H:i') }} - {{ $listing->pickup_until->format('H:i') }}
+                            </p>
+                        </div>
                     </div>
 
                     <div class="flex flex-col gap-3 lg:items-end">

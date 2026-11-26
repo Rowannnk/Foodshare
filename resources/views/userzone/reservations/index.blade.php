@@ -27,6 +27,8 @@
         <div class="space-y-4">
             @forelse ($reservations as $reservation)
                 <article class="flex flex-col gap-4 rounded-[1.5rem] border border-[#EAD8CD] bg-white p-6 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-start gap-4">
+                    <x-listing-thumb :listing="$reservation->foodListing" size="h-20 w-20" />
 
                     <div>
                         <span class="rounded-full bg-[#F7E8DE] px-3 py-1 text-xs font-extrabold uppercase tracking-widest text-[#8E583D]">
@@ -48,6 +50,7 @@
                             until {{ $reservation->foodListing->pickup_until->format('H:i') }}
                         </p>
                     </div>
+                </div>
 
                     <div class="flex flex-col items-start gap-3 sm:items-end">
                         @if ($reservation->pickup)
