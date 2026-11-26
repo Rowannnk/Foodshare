@@ -6,8 +6,9 @@ use App\Models\Pickup;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PickupConfirmed extends Notification
+class PickupConfirmed extends Notification implements ShouldQueue
 {
     use Queueable;
 
