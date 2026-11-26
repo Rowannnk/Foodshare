@@ -89,8 +89,11 @@
                     'label' => 'Organization Type',
                     'placeholder' => 'All Organizations',
                     'options' => [
-                        'donor' => 'Donor',
-                        'charity' => 'Recipient',
+                        'restaurant' => 'Restaurant',
+                        'cafe' => 'Cafe',
+                        'bakery' => 'Bakery',
+                        'supermarket' => 'Supermarket',
+                        'charity' => 'Charity',
                     ],
                 ],
             ]"
