@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Userzone\OrganizationController;
 use App\Http\Controllers\Admin\FoodCategoryController;
 use App\Http\Controllers\Userzone\PickupController;
+use App\Http\Controllers\Admin\OrganizationController as AdminOrganizationController;
+use App\Http\Controllers\Admin\FoodListingController as AdminFoodListingController;
+use App\Http\Controllers\Admin\PickupController as AdminPickupController;
+use App\Http\Middleware\EnsureUserIsAdmin;
 
 /*
  * Public Website routes
@@ -47,9 +51,17 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('organizations', OrganizationController::class);
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::resource('categories', FoodCategoryController::class)
-            ->parameters(['categories' => 'category']);
+    Route::prefix('admin')
+        ->name('admin.')
+        ->middleware(EnsureUserIsAdmin::class)
+        ->group(function () {
+            Route::resource('categories', FoodCategoryController::class)
+                ->parameters(['categories' => 'category']);
+            Route::resource('organizations', AdminOrganizationController::class);
+            Route::resource('food-listings', AdminFoodListingController::class)
+                ->parameters(['food-listings' => 'foodListing']);
+            Route::get('pickups', [AdminPickupController::class, 'index'])
+                ->name('pickups.index');
         });
 
     // For the user's profile management
