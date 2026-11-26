@@ -18,6 +18,7 @@ class FoodListing extends Model
         'food_category_id',
         'title',
         'description',
+        'photo_path',
         'quantity',
         'pickup_from',
         'pickup_until',
@@ -67,5 +68,11 @@ class FoodListing extends Model
         return $this->status === ListingStatus::AVAILABLE
             && $this->remainingQuantity() > 0
             && $this->pickup_until->isFuture();
+    }
+    public function photoUrl(): string
+    {
+        return $this->photo_path
+            ? asset('storage/'.$this->photo_path)
+            : 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80';
     }
 }
