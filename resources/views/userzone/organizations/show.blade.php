@@ -24,10 +24,24 @@
             </div>
 
             @if ($canManage)
-                <a href="{{ route('organizations.edit', $organization) }}"
-                   class="w-fit rounded-full bg-[#E9A17D] px-6 py-3 text-sm font-bold text-[#4A342B] hover:bg-[#D98E69]">
-                    Edit
-                </a>
+                <div class="flex flex-wrap items-center gap-3">
+                    <a href="{{ route('organizations.edit', $organization) }}"
+                    class="w-fit rounded-full bg-[#E9A17D] px-6 py-3 text-sm font-bold text-[#4A342B] hover:bg-[#D98E69]">
+                        Edit
+                    </a>
+
+                    <form method="POST"
+                        action="{{ route('organizations.destroy', $organization) }}"
+                        onsubmit="return confirm('Are you sure you want to delete this organization?')">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                                class="w-fit rounded-full border border-red-200 bg-red-50 px-6 py-3 text-sm font-bold text-red-600 transition hover:bg-red-100">
+                            Delete
+                        </button>
+                    </form>
+                </div>
             @endif
         </div>
 
