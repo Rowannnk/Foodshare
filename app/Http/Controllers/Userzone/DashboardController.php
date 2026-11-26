@@ -38,7 +38,9 @@ class DashboardController extends Controller
                     ->take(5)
                     ->get(),
             ];
-        }
+
+    return view('admin.dashboard.index', $data);
+}
 
         if ($user->isDonor()) {
             $ownListings = fn () => FoodListing::whereHas(
