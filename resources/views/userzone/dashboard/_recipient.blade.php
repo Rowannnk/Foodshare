@@ -43,6 +43,7 @@
     <div class="mt-4 grid gap-4 md:grid-cols-3">
         @forelse ($upcoming as $reservation)
             <article class="rounded-2xl border border-[#EAD8CD] bg-white p-6">
+                <x-listing-thumb :listing="$reservation->foodListing" size="h-32 w-full" class="mb-4" />
                 <p class="font-bold text-[#4A342B]">{{ $reservation->foodListing->title }}</p>
                 <p class="mt-1 text-sm text-[#88766D]">
                     {{ $reservation->quantity }} items from {{ $reservation->foodListing->organization->name }}

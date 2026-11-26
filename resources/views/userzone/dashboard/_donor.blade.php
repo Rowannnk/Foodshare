@@ -47,12 +47,15 @@
             @forelse ($pendingPickups as $pickup)
                 <a href="{{ route('pickups.index') }}"
                    class="flex items-center justify-between rounded-2xl border border-[#EAD8CD] bg-white p-5 transition hover:shadow-lg">
-                    <div>
-                        <p class="font-bold text-[#4A342B]">{{ $pickup->reservation->foodListing->title }}</p>
-                        <p class="text-sm text-[#88766D]">
-                            {{ $pickup->reservation->quantity }} items for {{ $pickup->reservation->user->name }}
-                        </p>
-                    </div>
+                   <div class="flex items-center gap-4">
+                        <x-listing-thumb :listing="$pickup->reservation->foodListing" />
+                        <div>
+                            <p class="font-bold text-[#4A342B]">{{ $pickup->reservation->foodListing->title }}</p>
+                            <p class="text-sm text-[#88766D]">
+                                {{ $pickup->reservation->quantity }} items for {{ $pickup->reservation->user->name }}
+                            </p>
+                        </div>
+                   </div>
                     <span class="rounded-full bg-[#F7E8DE] px-3 py-1 text-xs font-bold text-[#8E583D]">Confirm</span>
                 </a>
             @empty
@@ -73,12 +76,15 @@
             @forelse ($recentListings as $listing)
                 <a href="{{ route('my-listings.show', $listing) }}"
                    class="flex items-center justify-between rounded-2xl border border-[#EAD8CD] bg-white p-5 transition hover:shadow-lg">
-                    <div>
-                        <p class="font-bold text-[#4A342B]">{{ $listing->title }}</p>
-                        <p class="text-sm text-[#88766D]">
-                            {{ $listing->foodCategory->name }} &middot; {{ $listing->quantity }} items
-                        </p>
-                    </div>
+                   <div class="flex items-center gap-4">
+                        <x-listing-thumb :listing="$pickup->reservation->foodListing" />
+                        <div>
+                            <p class="font-bold text-[#4A342B]">{{ $listing->title }}</p>
+                            <p class="text-sm text-[#88766D]">
+                                {{ $listing->foodCategory->name }} &middot; {{ $listing->quantity }} items
+                            </p>
+                        </div>
+                   </div>
                     <span class="rounded-full bg-[#F7E8DE] px-3 py-1 text-xs font-bold capitalize text-[#8E583D]">
                         {{ $listing->status->value }}
                     </span>

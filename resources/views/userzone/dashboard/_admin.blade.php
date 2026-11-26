@@ -48,7 +48,12 @@
                 <tbody class="divide-y divide-[#EAD8CD]">
                     @forelse ($recentReservations as $reservation)
                         <tr>
-                            <td class="px-5 py-3 font-semibold text-[#4A342B]">{{ $reservation->foodListing->title }}</td>
+                            <td class="px-5 py-3 font-semibold text-[#4A342B]">
+                                <div class="flex items-center gap-3">
+                                    <x-listing-thumb :listing="$reservation->foodListing" size="h-10 w-10" />
+                                    {{ $reservation->foodListing->title }}
+                                </div>
+                            </td>
                             <td class="px-5 py-3 text-[#88766D]">{{ $reservation->user->name }}</td>
                             <td class="px-5 py-3">{{ $reservation->quantity }}</td>
                             <td class="px-5 py-3">
