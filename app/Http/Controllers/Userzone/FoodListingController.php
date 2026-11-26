@@ -6,10 +6,10 @@ use App\Enums\ListingStatus;
 use App\Enums\ReservationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FoodListingRequest;
-use App\Models\FoodCategory;
 use App\Models\FoodListing;
 use App\Models\Organization;
 use App\Models\User;
+use App\Services\FoodCategoryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -134,7 +134,7 @@ class FoodListingController extends Controller
 
         return [
             'organizations' => $organizations,
-            'categories' => FoodCategory::where('is_active', true)->orderBy('name')->get(),
+            'categories' => app(FoodCategoryService::class)->getActiveCategories(),
         ];
     }
 }
