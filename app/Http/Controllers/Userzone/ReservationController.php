@@ -10,11 +10,12 @@ use App\Http\Requests\StoreReservationRequest;
 use App\Models\FoodListing;
 use App\Models\Pickup;
 use App\Models\Reservation;
+use App\Notifications\NewReservation;
+use App\Notifications\ReservationCancelled;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use App\Notifications\NewReservation;
 
 class ReservationController extends Controller
 {
@@ -92,6 +93,9 @@ class ReservationController extends Controller
                 $listing->update(['status' => ListingStatus::AVAILABLE]);
             }
         });
+        $reservation->foodListing->organization->user->notify(
+            new ReservationCancelled($reservation)
+        );
 
         return redirect()
             ->route('reservations.index')
