@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FoodCategoryRequest;
 use App\Models\FoodCategory;
+use App\Services\FoodCategoryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -40,6 +41,8 @@ class FoodCategoryController extends Controller
         $category = FoodCategory::create($validated + [
             'slug' => FoodCategory::generateSlug($validated['name']),
         ]);
+
+        app(FoodCategoryService::class)->clearCache();
 
         return redirect()
             ->route('admin.categories.show', $category)
@@ -80,6 +83,7 @@ class FoodCategoryController extends Controller
         $category->update($validated + [
             'slug' => FoodCategory::generateSlug($validated['name'], $category->id),
         ]);
+        app(FoodCategoryService::class)->clearCache();
 
         return redirect()
             ->route('admin.categories.show', $category)
@@ -97,6 +101,7 @@ class FoodCategoryController extends Controller
         }
 
         $category->delete();
+        app(FoodCategoryService::class)->clearCache();
 
         return redirect()
             ->route('admin.categories.index')
