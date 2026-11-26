@@ -115,7 +115,11 @@ The seeder also creates other donors, recipients, organizations, food listings, 
 
 ## Emails
 
-`MAIL_MAILER=log` is set in `.env.example`, so no email leaves the computer. Every email is written to `storage/logs/laravel.log`. Use SMTP or Mailtrap settings in `.env` to receive them in a real inbox.
+Emails are queued (`QUEUE_CONNECTION=database`). Start a worker in a second terminal to send them:
+
+    php artisan queue:work
+
+Without a worker the emails wait in the `jobs` table. Sent emails are written to `storage/logs/laravel.log` (`MAIL_MAILER=log`).
 
 ## Tests
 
