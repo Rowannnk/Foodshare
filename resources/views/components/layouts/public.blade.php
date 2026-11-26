@@ -54,12 +54,9 @@
 </head>
 
 <body class="bg-[#FFF8F2] text-[#4A342B] antialiased">
-    @php
-        $showAdminSidebar = auth()->check()
-            && auth()->user()->isAdmin()
-            && request()->routeIs('dashboard', 'admin.*', 'organizations.*', 'my-listings.*', 'pickups.*');
-    @endphp
+
     @include('layouts.public_navigation')
+
     @if (session('success'))
         <div class="mx-auto mt-6 max-w-7xl px-6 lg:px-8">
             <div class="rounded-2xl border border-green-200 bg-green-50 px-5 py-4 text-sm font-semibold text-green-800">
@@ -68,25 +65,13 @@
         </div>
     @endif
 
-    @if ($showAdminSidebar)
-        <div class="flex min-h-[calc(100vh-5rem)] flex-col lg:flex-row">
-            <x-admin-sidebar />
-
-            <main class="min-w-0 flex-1">
-                {{ $slot }}
-            </main>
-        </div>
-    @else
-        <main>
-            {{ $slot }}
-        </main>
-    @endif
+    <main>
+        {{ $slot }}
+    </main>
 
     <footer class="mt-20 bg-[#4A342B] text-white">
         <div class="mx-auto max-w-7xl px-6 py-14 lg:px-8">
-
             <div class="grid gap-10 md:grid-cols-2">
-
                 <div>
                     <a href="{{ route('welcome') }}" class="inline-flex items-center gap-3">
                         <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E9A17D] text-xl font-extrabold text-[#4A342B]">
@@ -114,14 +99,12 @@
                         good food never goes to waste.
                     </p>
                 </div>
-
             </div>
 
             <div class="mt-12 flex flex-col justify-between gap-4 border-t border-white/15 pt-6 text-xs text-white/50 sm:flex-row">
                 <p>&copy; {{ date('Y') }} FoodLoop. All rights reserved.</p>
                 <p>Less waste. More meals. Stronger communities.</p>
             </div>
-
         </div>
     </footer>
 
