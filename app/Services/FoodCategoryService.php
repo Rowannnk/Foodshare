@@ -11,15 +11,18 @@ class FoodCategoryService
     private const CACHE_KEY = 'food_categories.active';
 
     public function getActiveCategories(): Collection
-    {
-        return Cache::remember(
-            self::CACHE_KEY,
-            now()->addMinutes(30),
-            fn () => FoodCategory::where('is_active', true)
-                ->orderBy('name')
-                ->get()
-        );
-    }
+        {
+            $categories = Cache::remember(
+                self::CACHE_KEY,
+                now()->addMinutes(30),
+                fn () => FoodCategory::where('is_active', true)
+                    ->orderBy('name')
+                    ->get()
+                    ->toArray()
+            );
+
+            return FoodCategory::hydrate($categories);
+        }
 
     public function clearCache(): void
     {
