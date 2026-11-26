@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use App\Notifications\NewReservation;
 
 class ReservationController extends Controller
 {
@@ -39,11 +40,12 @@ class ReservationController extends Controller
                 'quantity' => 'You need an active organization before you can reserve food.',
             ]);
         }
+
         if (! $foodListing->isReservable()) {
             return back()->withErrors(['quantity' => 'This food cannot be reserved any more.']);
         }
 
-        DB::transaction(function () use ($request, $foodListing) {
+        $reservation = DB::transaction(function () use ($request, $foodListing) {
             $reservation = Reservation::create([
                 'food_listing_id' => $foodListing->id,
                 'user_id' => $request->user()->id,
@@ -61,7 +63,11 @@ class ReservationController extends Controller
             if ($foodListing->remainingQuantity() === 0) {
                 $foodListing->update(['status' => ListingStatus::RESERVED]);
             }
+
+            return $reservation;
         });
+
+        $foodListing->organization->user->notify(new NewReservation($reservation));
 
         return redirect()
             ->route('reservations.index')
