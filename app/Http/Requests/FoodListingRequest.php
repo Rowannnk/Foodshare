@@ -37,6 +37,9 @@ class FoodListingRequest extends FormRequest
             ],
             'title' => ['required', 'string', 'max:120'],
             'description' => ['nullable', 'string', 'max:1000'],
+            'photo' => $isCreate
+                ? ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048']
+                : ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'quantity' => ['required', 'integer', 'min:'.$minQuantity, 'max:1000'],
             'pickup_from' => $isCreate ? ['required', 'date', 'after:now'] : ['required', 'date'],
             'pickup_until' => ['required', 'date', 'after:pickup_from'],
@@ -56,6 +59,11 @@ class FoodListingRequest extends FormRequest
             'organization_id.required' => 'Please choose an organization.',
             'organization_id.exists' => 'You can only use your own organizations.',
             'food_category_id.required' => 'Please choose a category.',
+            'photo.required' => 'Please upload a photo of the food.',
+            'photo.image' => 'The file must be an image.',
+            'photo.mimes' => 'The photo must be a JPG, PNG or WebP file.',
+            'photo.max' => 'The photo may not be larger than 2 MB.',
+            'photo.uploaded' => 'The photo could not be uploaded. Try a smaller file.',
             'quantity.min' => 'The quantity cannot be less than the :min items that are already reserved.',
             'pickup_until.after' => 'The pickup end time must be after the pickup start time.',
             'expires_at.after_or_equal' => 'The best before date cannot be earlier than the end of the pickup.',
