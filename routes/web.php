@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\OrganizationController as AdminOrganizationContro
 use App\Http\Controllers\Admin\FoodListingController as AdminFoodListingController;
 use App\Http\Controllers\Admin\PickupController as AdminPickupController;
 use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Controllers\Admin\UserController;
 
 /*
  * Public Website routes
@@ -62,6 +63,8 @@ Route::middleware('auth')->group(function () {
                 ->parameters(['food-listings' => 'foodListing']);
             Route::get('pickups', [AdminPickupController::class, 'index'])
                 ->name('pickups.index');
+            Route::get('users', [UserController::class, 'index'])
+                ->name('users.index');
         });
 
     // For the user's profile management
