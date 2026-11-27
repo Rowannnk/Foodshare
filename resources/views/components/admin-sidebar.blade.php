@@ -4,6 +4,7 @@
         ['Categories', 'admin.categories.index', 'admin.categories.*', 'heroicon-o-tag'],
         ['Organizations', 'admin.organizations.index', 'admin.organizations.*', 'heroicon-o-building-office-2'],
         ['Food Listings', 'admin.food-listings.index', 'admin.food-listings.*', 'heroicon-o-shopping-bag'],
+        ['User Management', 'admin.users.index', 'admin.users.*', 'heroicon-o-users'],
         ['Pickups', 'admin.pickups.index', 'admin.pickups.*', 'heroicon-o-clock'],
     ];
 @endphp
